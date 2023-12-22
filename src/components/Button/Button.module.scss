@@ -1,0 +1,23 @@
+.button {
+  display: inline-block;
+  padding: 4px;
+  min-width: 100px;
+  height: 34px;
+
+  text-align: center;
+  border-radius: 80px;
+
+  line-height: 26px;
+  background: var(--primary-color);
+  transition: all 0.2s;
+
+  &:hover,
+  &:focus {
+    background: #ffe302;
+  }
+
+  &:disabled {
+    background: #b4b4b4;
+    color: rgba(255, 255, 255, 0.87);
+  }
+}
