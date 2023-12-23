@@ -1,0 +1,65 @@
+@import "../../sass//utils/mixins";
+
+.hero {
+  @include container;
+
+  display: flex;
+  justify-content: center;
+
+  height: 500px;
+  max-width: 1170px;
+
+  background-repeat: no-repeat;
+  background-position: 0%;
+  background-size: cover;
+
+  background-image: url("../../assets/images/hero_sm-@1x.jpg");
+
+  @media (min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+    background-image: url("../../assets/images/hero_sm-@2x.jpg");
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-top: 40px;
+  }
+
+  @media screen and (min-width: 768px) {
+    align-items: center;
+
+    background-image: url("../../assets/images/hero_md-@1x.jpg");
+
+    @media (min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+      background-image: url("../../assets/images/hero_md-@2x.jpg");
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    height: 650px;
+    background-image: url("../../assets/images/hero_lg-@1x.jpg");
+
+    @media (min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+      background-image: url("../../assets/images/hero_lg-@2x.jpg");
+    }
+  }
+
+  @media screen and (min-width: 1170px) {
+    padding: 0 !important;
+
+    background-image: url("../../assets/images/hero_big-@1x.jpg");
+
+    @media (min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+      background-image: url("../../assets/images/hero_big-@2x.jpg");
+    }
+  }
+}
+
+.wrapper {
+  width: 380px;
+  text-align: center;
+  color: var(--white);
+}
+
+.desc {
+  margin-top: 26px;
+  margin-bottom: 32px;
+}

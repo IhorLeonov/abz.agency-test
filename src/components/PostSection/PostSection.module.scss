@@ -1,0 +1,13 @@
+@import "../../sass/utils/mixins";
+
+.section {
+  @include container;
+
+  padding-top: 140px !important;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}

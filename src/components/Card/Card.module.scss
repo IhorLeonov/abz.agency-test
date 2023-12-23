@@ -1,0 +1,20 @@
+.card {
+  padding: 20px;
+  white-space: nowrap;
+}
+
+.photo {
+  width: 70px;
+  height: 70px;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+
+  border-radius: 50%;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,12 +1,19 @@
+import { GetSection } from "../GetSection/GetSection";
+import { Header } from "../Header/Header";
+import { Hero } from "../Hero/Hero";
+import { PostSection } from "../PostSection/PostSection";
 import "./App.module.scss";
-import { Button } from "../Button/Button";
 
 function App() {
   return (
-    <div>
-      <Button>Click</Button>
-      <Button disabled>Click</Button>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <GetSection />
+        <PostSection />
+      </main>
+    </>
   );
 }
 
