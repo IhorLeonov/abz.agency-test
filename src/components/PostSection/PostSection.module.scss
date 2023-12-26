@@ -51,7 +51,8 @@ form {
     border-color: var(--secondary-color);
   }
 
-  &:focus + .field_label {
+  &:focus + .field_label,
+  &:valid + .field_label {
     left: 12px;
     transform: translate(0px, -21px);
     transition: 0.2s ease;

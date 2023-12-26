@@ -3,55 +3,73 @@ import {
   isAnyOf,
   createSlice,
 } from "@reduxjs/toolkit";
-import { getAllCharacters } from "./operations";
+import { getPositions, getToken, getUsers } from "./operations";
+import { User } from "../types/interfaces";
+
+const handleSameFulfilled = (state: MainState) => {
+  state.isLoading = false;
+  state.error = null;
+};
+
+interface Position {
+  id: string;
+  name: string;
+}
 
 interface MainState {
   isLoading: boolean;
   error: string | null;
-  data: object;
+  data: Data;
+}
+
+interface Data {
+  users: User[];
+  token: string;
+  page: number;
+  total_pages: number | null;
+  positions: Position[];
 }
 
 const initialState = {
   isLoading: false,
-  error: "Qwe",
-  data: {},
+  error: "",
+  data: { users: [], token: "", page: 1, total_pages: null, positions: [] },
 } as MainState;
 
 const mainSlice = createSlice({
   name: "main",
   initialState,
   reducers: {
-    // setInputValues: (state, action: PayloadAction<FormInputValues>) => {
-    //   state.inputValues = action.payload;
-    // },
+    setPage: (state) => {
+      state.data.page = state.data.page + 1;
+    },
     resetError: (state) => {
       state.error = "";
     },
   },
   extraReducers: (builder) => {
     builder
-      // .addCase(getAllCharacters.fulfilled, (state, action) => {
-      // const { characters } = action.payload.data;
-      // handleSameFulfilled(state);
-      // state.data.charactersData = characters.results;
-      // state.data.charactersPages = characters.info.pages;
-      // })
+      .addCase(getUsers.fulfilled, (state, action) => {
+        const { page, total_pages, users } = action.payload;
+        handleSameFulfilled(state);
+
+        state.data.page = page;
+        state.data.total_pages = total_pages;
+        state.data.users = [...state.data.users, ...users];
+      })
+      .addCase(getPositions.fulfilled, (state, action) => {
+        handleSameFulfilled(state);
+        state.data.positions = action.payload.positions;
+      })
+      .addCase(getToken.fulfilled, (state, action) => {
+        handleSameFulfilled(state);
+        state.data.token = action.payload.token;
+      })
+      .addMatcher(isAnyOf(getUsers.pending, getPositions.pending, getToken.pending), (state) => {
+        state.isLoading = true;
+      })
       .addMatcher(
-        isAnyOf(
-          getAllCharacters.pending
-          // getFilteredChars.pending,
-          // getLocations.pending,
-        ),
-        (state) => {
-          state.isLoading = true;
-        }
-      )
-      .addMatcher(
-        isAnyOf(
-          getAllCharacters.rejected
-          // getFilteredChars.rejected,
-          // getLocations.rejected,
-        ),
+        isAnyOf(getUsers.rejected, getPositions.rejected, getToken.rejected),
         (state, action) => {
           state.isLoading = false;
           if (typeof action.payload === "string") state.error = action.payload;
@@ -60,5 +78,5 @@ const mainSlice = createSlice({
   },
 });
 
-export const { resetError } = mainSlice.actions;
+export const { resetError, setPage } = mainSlice.actions;
 export const mainReducer = mainSlice.reducer;

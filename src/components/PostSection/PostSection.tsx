@@ -4,8 +4,9 @@ import { Title } from "../Title/Title";
 import { Button } from "../Button/Button";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import common_s from "../../sass/common.module.scss";
-
-const URL = "https://frontend-test-assignment-api.abz.agency/api/v1";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { selectData } from "../../redux/selectors";
+import { getPositions, getToken, postNewUser } from "../../redux/operations";
 
 interface Values {
   name: string;
@@ -15,29 +16,28 @@ interface Values {
 }
 
 export const PostSection: FC = () => {
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { positions } = useAppSelector(selectData);
 
   const [photo, setPhoto] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("Upload your photo");
-  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetch(`${URL}/token`)
-        .then((res) => res.json())
-        .then((data) => setToken(data.token));
-    };
-    fetchData().catch((err) => console.log(err.message));
+    dispatch(getPositions());
+    dispatch(getToken());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       setPhoto(e.target.files[0]);
       setFileName(e.target.files[0].name);
     }
   };
 
-  const handlePick = () => {
+  const handlePickImage = () => {
     inputRef?.current?.click();
   };
 
@@ -51,22 +51,7 @@ export const PostSection: FC = () => {
 
     if (photo !== null) formData.append("photo", photo);
 
-    try {
-      const res = await fetch(`${URL}/users`, {
-        method: "POST",
-        body: formData,
-        headers: { Token: token },
-      });
-
-      if (res.status) {
-        console.log(`Success`);
-      } else {
-        console.log(`Error`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
+    dispatch(postNewUser({ formData }));
     resetForm();
   };
 
@@ -82,72 +67,62 @@ export const PostSection: FC = () => {
         }}
         onSubmit={handleSubmit}
       >
-        {() => (
-          <Form>
-            <Field className={s.field} type="text" name="name" id="name" />
-            <label htmlFor="name" className={s.field_label}>
-              Your name
-            </label>
-
-            <Field className={s.field} type="email" name="email" id="email" />
-            <label htmlFor="email" className={s.field_label}>
-              Email
-            </label>
-
-            <Field className={s.field} type="text" name="phone" id="phone" />
-            <label htmlFor="phone" className={s.field_label}>
-              Phone
-            </label>
-
-            <p className={s.number}>+38 (XXX) XXX - XX - XX</p>
-            <p className={s.position_title}>Select your position</p>
-
-            <div className={s.positions_box} role="group" aria-labelledby="my-radio-group">
-              <label>
-                <Field className={s.radio} name="position" type="radio" value="1" />
-                <span className={s.radio_icon} />
-                <span className={s.position_caption}>Frontend developer</span>
+        {() => {
+          return (
+            <Form>
+              <Field className={s.field} type="text" name="name" id="name" />
+              <label htmlFor="name" className={s.field_label}>
+                Your name
               </label>
-              <label>
-                <Field className={s.radio} name="position" type="radio" value="2" />
-                <span className={s.radio_icon} />
-                <span className={s.position_caption}>Backend developer</span>
+              <Field className={s.field} type="email" name="email" id="email" />
+              <label htmlFor="email" className={s.field_label}>
+                Email
               </label>
-              <label>
-                <Field className={s.radio} name="position" type="radio" value="3" />
-                <span className={s.radio_icon} />
-                <span className={s.position_caption}>Designer</span>
+              <Field className={s.field} type="text" name="phone" id="phone" />
+              <label htmlFor="phone" className={s.field_label}>
+                Phone
               </label>
-              <label>
-                <Field className={s.radio} name="position" type="radio" value="4" />
-                <span className={s.radio_icon} />
-                <span className={s.position_caption}>QA</span>
-              </label>
-            </div>
 
-            <div className={s.upploader}>
-              <button className={s.uppload_btn} type="button" onClick={handlePick}>
-                Upload
-              </button>
-              <p className={s.uppload_caption} style={{ color: !photo ? "#7e7e7e" : "#000000de" }}>
-                {fileName}
-              </p>
-            </div>
+              <p className={s.number}>+38 (XXX) XXX - XX - XX</p>
+              <p className={s.position_title}>Select your position</p>
 
-            <input
-              className={common_s.hidden}
-              name="photo"
-              type="file"
-              ref={inputRef}
-              onChange={handleChange}
-              accept=".jpeg, .jpg"
-            />
+              <div className={s.positions_box} role="group" aria-labelledby="my-radio-group">
+                {positions.map(({ id, name }) => (
+                  <label key={id}>
+                    <Field className={s.radio} name="position" type="radio" value={`${id}`} />
+                    <span className={s.radio_icon} />
+                    <span className={s.position_caption}>{name}</span>
+                  </label>
+                ))}
+              </div>
 
-            <Button className={s.submit_btn} type="submit">
-              Sign up
-            </Button>
-          </Form>
-        )}
+              <div className={s.upploader}>
+                <button className={s.uppload_btn} type="button" onClick={handlePickImage}>
+                  Upload
+                </button>
+                <p
+                  className={s.uppload_caption}
+                  style={{ color: !photo ? "#7e7e7e" : "#000000de" }}
+                >
+                  {fileName}
+                </p>
+              </div>
+
+              <input
+                className={common_s.hidden}
+                name="photo"
+                type="file"
+                ref={inputRef}
+                onChange={handleChangeFile}
+                accept=".jpeg, .jpg"
+              />
+
+              <Button className={s.submit_btn} type="submit">
+                Sign up
+              </Button>
+            </Form>
+          );
+        }}
       </Formik>
     </section>
   );

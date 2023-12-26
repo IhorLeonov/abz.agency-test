@@ -1,6 +1,25 @@
 .card {
   padding: 20px;
+
+  width: 328px;
+  height: 254px;
+
+  border-radius: 10px;
+  background: var(--white);
+
   white-space: nowrap;
+
+  @media (min-width: 768px) {
+    width: 344px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 282px;
+  }
+
+  @media (min-width: 1170px) {
+    width: 370px;
+  }
 }
 
 .photo {
