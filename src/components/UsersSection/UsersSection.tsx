@@ -1,14 +1,12 @@
 import { FC, useEffect } from "react";
-import s from "./GetSection.module.scss";
-import { Title } from "../Title/Title";
-import { Button } from "../Button/Button";
+import s from "./UsersSection.module.scss";
+import { Title, Button, CardList } from "..";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { getUsers } from "../../redux/operations";
-import { CardList } from "../CardList/CardList";
 import { selectData } from "../../redux/selectors";
 import { setPage } from "../../redux/mainSlice";
 
-export const GetSection: FC = () => {
+export const UsersSection: FC = () => {
   const dispatch = useAppDispatch();
   const { page, total_pages } = useAppSelector(selectData);
 
@@ -23,7 +21,7 @@ export const GetSection: FC = () => {
   };
 
   return (
-    <section className={s.section}>
+    <section id="users" className={s.section}>
       <Title tag="h2">Working with GET request</Title>
       <CardList />
       <Button disabled={total_pages === page} style={{ marginTop: 50 }} onClick={handleShowMore}>

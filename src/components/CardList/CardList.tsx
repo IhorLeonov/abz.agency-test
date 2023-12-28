@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAppSelector } from "../../redux/store";
 import { selectData } from "../../redux/selectors";
-import { Card } from "../Card/Card";
+import { Card } from "../index";
 import s from "./CardList.module.scss";
 
 export const CardList: FC = () => {

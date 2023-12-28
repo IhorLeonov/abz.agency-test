@@ -1,9 +1,8 @@
 import { FC } from "react";
-import s from "./Hero.module.scss";
-import { Button } from "../Button/Button";
-import { Title } from "../Title/Title";
+import s from "./HeroSection.module.scss";
+import { Button, Title } from "../index";
 
-export const Hero: FC = () => {
+export const HeroSection: FC = () => {
   return (
     <section className={s.hero}>
       <div className={s.wrapper}>
@@ -14,7 +13,9 @@ export const Hero: FC = () => {
           with accessibility in mind. They should also be excited to learn, as the world of
           Front-End Development keeps evolving.
         </p>
-        <Button>Sign up</Button>
+        <a href="#sign-up">
+          <Button>Sign up</Button>
+        </a>
       </div>
     </section>
   );

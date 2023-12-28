@@ -1,34 +1,11 @@
-import {
-  // PayloadAction,
-  isAnyOf,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { isAnyOf, createSlice } from "@reduxjs/toolkit";
 import { getPositions, getToken, getUsers } from "./operations";
-import { User } from "../types/interfaces";
+import { MainState } from "../types/interfaces";
 
 const handleSameFulfilled = (state: MainState) => {
   state.isLoading = false;
-  state.error = null;
+  state.error = "";
 };
-
-interface Position {
-  id: string;
-  name: string;
-}
-
-interface MainState {
-  isLoading: boolean;
-  error: string | null;
-  data: Data;
-}
-
-interface Data {
-  users: User[];
-  token: string;
-  page: number;
-  total_pages: number | null;
-  positions: Position[];
-}
 
 const initialState = {
   isLoading: false,

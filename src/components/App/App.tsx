@@ -1,16 +1,13 @@
-import { GetSection } from "../GetSection/GetSection";
-import { Header } from "../Header/Header";
-import { Hero } from "../Hero/Hero";
-import { PostSection } from "../PostSection/PostSection";
+import { HeaderSection, HeroSection, UsersSection, SignUpSection } from "../index";
 
 function App() {
   return (
     <>
-      <Header />
+      <HeaderSection />
       <main>
-        <Hero />
-        <GetSection />
-        <PostSection />
+        <HeroSection />
+        <UsersSection />
+        <SignUpSection />
       </main>
     </>
   );
