@@ -1,4 +1,4 @@
-### Test assignment for [https://abz.agency/](abz.agency)
+### Test assignment for [abz.agency](https://abz.agency/)
 
 ## Technologies
 
@@ -15,7 +15,7 @@
 
 ## API
 
-- [https://apidocs.abz.dev/test_assignment_for_frontend_developer_api_documentation#](API documentation)
+- [API documentation](https://apidocs.abz.dev/test_assignment_for_frontend_developer_api_documentation#)
 
 ## Start development server:
 
