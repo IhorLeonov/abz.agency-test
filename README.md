@@ -16,6 +16,7 @@
 ## API
 
 - [API documentation](https://apidocs.abz.dev/test_assignment_for_frontend_developer_api_documentation#)
+- [Figma project](https://www.figma.com/file/ykJhQGVFGbQBEQZzuktwvm/TESTTASK---2022?node-id=581%3A0&mode=dev)
 
 ## Start development server:
 
