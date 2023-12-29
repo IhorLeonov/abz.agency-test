@@ -1,5 +1,11 @@
-import { TitleProps } from "./Title.props";
 import s from "./Title.module.scss";
+import { DetailedHTMLProps, HtmlHTMLAttributes } from "react";
+
+interface TitleProps
+  extends DetailedHTMLProps<HtmlHTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
+  tag: "h1" | "h2";
+  children: React.ReactNode;
+}
 
 export const Title = ({ tag, children, ...props }: TitleProps): JSX.Element => {
   switch (tag) {
@@ -19,3 +25,5 @@ export const Title = ({ tag, children, ...props }: TitleProps): JSX.Element => {
       return <></>;
   }
 };
+
+// universal title component that returns necessary h-tag with personal styles

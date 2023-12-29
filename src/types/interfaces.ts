@@ -16,6 +16,7 @@ export interface Position {
 
 export interface MainState {
   isLoading: boolean;
+  isSuccess: boolean;
   error: string | null;
   data: Data;
 }

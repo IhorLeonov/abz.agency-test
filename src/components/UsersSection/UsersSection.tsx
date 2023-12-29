@@ -3,18 +3,24 @@ import s from "./UsersSection.module.scss";
 import { Title, Button, CardList } from "..";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { getUsers } from "../../redux/operations";
-import { selectData } from "../../redux/selectors";
-import { setPage } from "../../redux/mainSlice";
+import { selectData, selectIsSuccess } from "../../redux/selectors";
+import { resetState, setPage } from "../../redux/mainSlice";
 
-export const UsersSection: FC = () => {
+export const Users: FC = () => {
   const dispatch = useAppDispatch();
   const { page, total_pages } = useAppSelector(selectData);
+  const isSuccess = useAppSelector(selectIsSuccess);
+
+  useEffect(() => {
+    dispatch(resetState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
   useEffect(() => {
     const promise = dispatch(getUsers(page));
     return () => promise.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, isSuccess]);
 
   const handleShowMore = () => {
     dispatch(setPage());

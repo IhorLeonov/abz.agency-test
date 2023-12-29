@@ -48,13 +48,9 @@ export const getToken = createAsyncThunk("main/getToken", async (_, thunkAPI) =>
   }
 });
 
-interface Params {
-  formData: FormData;
-}
-
 export const postNewUser = createAsyncThunk(
   "main/postNewUser",
-  async ({ formData }: Params, thunkAPI) => {
+  async ({ formData }: { formData: FormData }, thunkAPI) => {
     try {
       const res = await axios.post(`/users`, formData);
       return res.data;

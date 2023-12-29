@@ -1,12 +1,14 @@
 import { FC, useEffect } from "react";
-import { Title, SignUpForm } from "../index";
+import { Title, SignUpForm, SuccessPage } from "../index";
 
 import s from "./SignUpSection.module.scss";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { getPositions, getToken } from "../../redux/operations";
+import { selectIsSuccess } from "../../redux/selectors";
 
-export const SignUpSection: FC = () => {
+export const SignUp: FC = () => {
   const dispatch = useAppDispatch();
+  const isSuccess = useAppSelector(selectIsSuccess);
 
   useEffect(() => {
     dispatch(getPositions());
@@ -16,8 +18,14 @@ export const SignUpSection: FC = () => {
 
   return (
     <section id="sign-up" className={s.section}>
-      <Title tag="h2">Working with POST request</Title>
-      <SignUpForm />
+      {!isSuccess ? (
+        <>
+          <Title tag="h2">Working with POST request</Title>
+          <SignUpForm />
+        </>
+      ) : (
+        <SuccessPage />
+      )}
     </section>
   );
 };

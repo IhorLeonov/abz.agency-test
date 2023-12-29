@@ -2,7 +2,7 @@ import { FC } from "react";
 import s from "./HeroSection.module.scss";
 import { Button, Title } from "../index";
 
-export const HeroSection: FC = () => {
+export const Hero: FC = () => {
   return (
     <section className={s.hero}>
       <div className={s.wrapper}>

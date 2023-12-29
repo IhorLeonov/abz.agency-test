@@ -1,0 +1,23 @@
+@import "../../sass/utils/mixins";
+
+.footer {
+  @include container;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+
+  background-color: var(--primary-color);
+
+  a {
+    display: flex;
+    gap: 10px;
+    font-weight: 600;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}

@@ -6,6 +6,7 @@ import { selectData } from "../../redux/selectors";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { postNewUser } from "../../redux/operations";
 import { schema, validatePhoto } from "../../helpers/index";
+import { setIsSuccess } from "../../redux/mainSlice";
 
 import s from "./SignUpForm.module.scss";
 import common_s from "../../sass/common.module.scss";
@@ -27,8 +28,6 @@ export const SignUpForm: FC = () => {
   }, [file]);
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
-
     if (e.target.files !== null) {
       setFile(e.target.files[0]);
       if (e.target.files[0]) {
@@ -45,7 +44,7 @@ export const SignUpForm: FC = () => {
     const formData = new FormData();
 
     formData.append("name", values.name);
-    formData.append("email", values.email);
+    formData.append("email", values.email.toLowerCase());
     formData.append("phone", values.phone);
     formData.append("position_id", values.position);
     if (file !== null) formData.append("photo", file);
@@ -55,8 +54,12 @@ export const SignUpForm: FC = () => {
     }
 
     if (isFileOk) {
-      dispatch(postNewUser({ formData }));
-      actions.resetForm();
+      const res = await dispatch(postNewUser({ formData }));
+
+      if (res.payload.success) {
+        dispatch(setIsSuccess());
+        actions.resetForm();
+      }
     }
   };
 
@@ -161,10 +164,15 @@ export const SignUpForm: FC = () => {
                 Upload
               </button>
               <p
+                data-tooltip-id={fileName.length > 32 ? "image-tooltip" : ""}
+                data-tooltip-content={fileName}
                 className={cn(s.uppload_caption, {
                   [s.upload_error]: !isFileOk && !fileErrorText.includes("idle"),
                 })}
-                style={{ color: !file ? "#7e7e7e" : "#000000de" }}
+                style={{
+                  color: !file ? "#7e7e7e" : "#000000de",
+                  cursor: fileName.length > 32 ? "pointer" : "default",
+                }}
               >
                 {fileName}
               </p>

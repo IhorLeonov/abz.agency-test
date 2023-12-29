@@ -3,7 +3,7 @@ import logo from "../../assets/icons/logo.svg";
 import { Button } from "../index";
 import s from "./HeaderSection.module.scss";
 
-export const HeaderSection: FC = () => {
+export const Header: FC = () => {
   return (
     <header className={s.header}>
       <img className={s.logo} src={logo} alt="Logo" />

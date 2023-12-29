@@ -26,3 +26,5 @@ export const validatePhoto: ValidatePhoto = (
     }
   }
 };
+
+// function for validation photo befor sending to server

@@ -7,3 +7,6 @@ export * from "./SignUpSection/SignUpSection";
 export * from "./Title/Title";
 export * from "./UsersSection/UsersSection";
 export * from "./SignUpForm/SignUpForm";
+export * from "./SuccessPage/SuccessPage";
+export * from "./Tooltip/Tooltip";
+export * from "./FooterSection/FooterSection";

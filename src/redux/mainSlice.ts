@@ -1,6 +1,7 @@
 import { isAnyOf, createSlice } from "@reduxjs/toolkit";
-import { getPositions, getToken, getUsers } from "./operations";
+import { getPositions, getToken, getUsers, postNewUser } from "./operations";
 import { MainState } from "../types/interfaces";
+import { errorWrapper } from "../helpers/errorWrapper";
 
 const handleSameFulfilled = (state: MainState) => {
   state.isLoading = false;
@@ -9,6 +10,7 @@ const handleSameFulfilled = (state: MainState) => {
 
 const initialState = {
   isLoading: false,
+  isSuccess: false,
   error: "",
   data: { users: [], token: "", page: 1, total_pages: null, positions: [] },
 } as MainState;
@@ -19,6 +21,13 @@ const mainSlice = createSlice({
   reducers: {
     setPage: (state) => {
       state.data.page = state.data.page + 1;
+    },
+    setIsSuccess: (state) => {
+      state.isSuccess = !state.isSuccess;
+    },
+    resetState: (state) => {
+      state.data.users = [];
+      state.data.page = 1;
     },
     resetError: (state) => {
       state.error = "";
@@ -42,18 +51,26 @@ const mainSlice = createSlice({
         handleSameFulfilled(state);
         state.data.token = action.payload.token;
       })
-      .addMatcher(isAnyOf(getUsers.pending, getPositions.pending, getToken.pending), (state) => {
-        state.isLoading = true;
+      .addCase(postNewUser.fulfilled, (state) => {
+        handleSameFulfilled(state);
       })
       .addMatcher(
-        isAnyOf(getUsers.rejected, getPositions.rejected, getToken.rejected),
+        isAnyOf(getUsers.pending, getPositions.pending, getToken.pending, postNewUser.pending),
+        (state) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(getUsers.rejected, getPositions.rejected, getToken.rejected, postNewUser.rejected),
         (state, action) => {
           state.isLoading = false;
-          if (typeof action.payload === "string") state.error = action.payload;
+          if (typeof action.payload === "string") {
+            state.error = errorWrapper(action.payload);
+          }
         }
       );
   },
 });
 
-export const { resetError, setPage } = mainSlice.actions;
+export const { resetError, setPage, setIsSuccess, resetState } = mainSlice.actions;
 export const mainReducer = mainSlice.reducer;
