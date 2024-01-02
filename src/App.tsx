@@ -1,4 +1,4 @@
-import { Header, Hero, Users, SignUp, TooltipCmp, Footer } from "./components/index";
+import { Header, Hero, Users, SignUp, TooltipCmp } from "./components/index";
 import { selectError, selectIsLoading } from "./redux/selectors";
 import { useAppSelector, useAppDispatch } from "./redux/store";
 import { Loader } from "./components/Loader/Loader";
@@ -40,7 +40,6 @@ function App() {
         <Users />
         <SignUp />
       </main>
-      <Footer />
       <TooltipCmp />
       {isLoading && <Loader />}
       <ToastContainer />
