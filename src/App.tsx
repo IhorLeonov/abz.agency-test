@@ -27,7 +27,7 @@ function App() {
     }
 
     return () => {
-      () => dispatch(resetError());
+      dispatch(resetError());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
